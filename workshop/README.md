@@ -13,36 +13,34 @@ After you complete this course, you'll be able to:
 - Secure your service mesh
 - Enforce policies for your microservices
 
-## Prerequisites
-You must you must have a Trial, Pay-As-You-Go, or Subscription [IBM Cloud account](https://console.bluemix.net/registration/) to complete all the modules in this course.
+## Setup
 
-Use Kubernetes 1.9.x or newer because earlier versions may require changes in manifests.
+1) If following this lab as part of an IBM instructor led workshop, please follow these instructions to setup your workshop environment: https://gist.github.com/jzaccone/0cdc321e5dc8adb0dca98ca861284c01
 
-You must have [already created a cluster](https://console.bluemix.net/docs/containers/container_index.html#container_index) in IBM Cloud Kubernetes Service.
+2) Clone this repository. 
 
-If you are using a Trial IBM Cloud Account, be aware that you may encounter resource caps, especially if there are existing resources in your cluster.  During the course, if any pods remain in `Pending` status, you may need to adjust the number of `replicas` in the various deployment yamls to a value of 1, delete the deployment, and attempt the steps again.
+```sh
+git clone https://github.com/jzaccone/istio101.git 
+```
 
-You should have a basic understanding of containers, IBM Cloud Kubernetes Service, and Istio. If you have no experience with those, take the following courses:
-1. [Get started with Kubernetes and IBM Cloud Kubernetes Service](https://developer.ibm.com/courses/all/get-started-kubernetes-ibm-cloud-container-service/)
-2. [Get started with Istio and IBM Cloud Kubernetes Service](https://developer.ibm.com/courses/all/get-started-istio-ibm-cloud-container-service/)
-
+The Kubernetes cluster we have provided for the workshop has been installed with Istio in advanced.
 
 ## Workshop setup
-- [Exercise 1 - Accessing a Kubernetes cluster with IBM Cloud Kubernetes Service](exercise-1/README.md)
-- [Exercise 2 - Installing Istio](exercise-2/README.md)
-- [Exercise 3 - Deploying Guestbook with Istio Proxy](exercise-3/README.md)
+- [Exercise 1 - Deploying Guestbook with Istio Proxy](exercise-3/README.md)
+- Skip Exercise 2
+- Skip Exercise 3
 
-## Creating a service mesh with Istio
-
-- [Exercise 4 - Observe service telemetry: metrics and tracing](exercise-4/README.md)
+## Do this workshop first
 - [Exercise 5 - Expose the service mesh with the Istio Ingress Gateway](exercise-5/README.md)
+
+## Learn about the features of Istio
+
 - [Exercise 6 - Perform traffic management](exercise-6/README.md)
-- [Exercise 7 - Secure your service mesh](exercise-7/README.md)
+- [Exercise 4 - Observe service telemetry: metrics and tracing](exercise-4/README.md)
 - [Exercise 8 - Enforce policies for microservices](exercise-8/README.md)
+- [Exercise 7 - Secure your service mesh](exercise-7/README.md)
 
 ## Cleaning up the Workshop
-
-We have a script that will remove [ibmcloud](https://console.bluemix.net/docs/cli/index.html#overview) at [here](cleanup/clean_your_local_machine.sh) and unset your `KUBECONFIG` for you.
 
 We have given you a [script](cleanup/clean_your_k8s_cluster.sh) as a conveant way to remove Istio and the guestbook
 application from your instance.
