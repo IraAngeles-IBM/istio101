@@ -72,51 +72,138 @@ You can read more about how [Istio mixer enables telemetry reporting](https://is
 
 #### Jaeger
 
-1. Establish port forwarding from local port 16686 to the Tracing instance:
+1. Patch the existing tracing service to change it from a `ClusterIP` to a `NodePort` type.
 
     ```shell
-    kubectl port-forward -n istio-system \
-      $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') \
-      16686:16686 &
+    kubectl patch svc tracing --type='json' -p '[{"op":"replace","path":"/spec/type","value":"NodePort"}]' -n istio-system
     ```
-2. In your browser, go to `http://127.0.0.1:16686`
+2. Find the port to access the service
+
+    ```shell
+    $ kubectl get svc tracing -n istio-system
+    NAME      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+    tracing   NodePort   172.21.36.204   <none>        80:32075/TCP   1d
+    ```
+    
+    In this example, the port is 32075.
+    
+3. Find the host to access the service
+
+    ```shell
+    $ ibmcloud cs workers user28-cluster
+    OK
+    ID                                                 Public IP       Private IP    Machine Type         State    Status   Zone    Version   
+    kube-wdc07-cr1b3398b985d84e9b8e9544a91d61428a-w1   169.61.73.131   10.191.9.76   b2c.4x16.encrypted   normal   Ready    wdc07   1.11.8_1547   
+    kube-wdc07-cr1b3398b985d84e9b8e9544a91d61428a-w2   169.61.73.142   10.191.9.71   b2c.4x16.encrypted   normal   Ready    wdc07   1.11.8_1547
+    ```
+    
+    Combine one of the public IPs and the port together to access the service. For example: `169.61.73.131:32075`
+    
 3. From the **Services** menu, select either the **guestbook** or **analyzer** service.
 4. Scroll to the bottom and click on **Find Traces** button to see traces.
 
 #### Grafana
 
-1. Establish port forwarding from local port 3000 to the Grafana instance:
+1. Patch the existing tracing service to change it from a `ClusterIP` to a `NodePort` type.
 
     ```shell
-    kubectl -n istio-system port-forward \
-      $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') \
-      3000:3000 &
+    kubectl patch svc grafana --type='json' -p '[{"op":"replace","path":"/spec/type","value":"NodePort"}]' -n istio-system
     ```
+    
+2. Find the port to access the service
 
-2. Browse to http://localhost:3000 and navigate to the Istio Mesh Dashboard by clicking on the Home menu on the top left.
+    ```shell
+    $ kubectl get svc tracing -n istio-system
+    NAME      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+    grafana   NodePort   172.21.36.204   <none>        80:32075/TCP   1d
+    ```
+    
+    In this example, the port is 32075.
+    
+3. Find the host to access the service
+
+    ```shell
+    $ ibmcloud cs workers user28-cluster
+    OK
+    ID                                                 Public IP       Private IP    Machine Type         State    Status   Zone    Version   
+    kube-wdc07-cr1b3398b985d84e9b8e9544a91d61428a-w1   169.61.73.131   10.191.9.76   b2c.4x16.encrypted   normal   Ready    wdc07   1.11.8_1547   
+    kube-wdc07-cr1b3398b985d84e9b8e9544a91d61428a-w2   169.61.73.142   10.191.9.71   b2c.4x16.encrypted   normal   Ready    wdc07   1.11.8_1547
+    ```
+    
+    Combine one of the public IPs and the port together to access the service. For example: `169.61.73.131:32075`
+    
+4. Navigate to the Istio Mesh Dashboard by clicking on the Home menu on the top left.
 
 #### Prometheus
 
-1. Establish port forwarding from local port 9090 to the Prometheus instance.
+1. Patch the existing tracing service to change it from a `ClusterIP` to a `NodePort` type.
 
     ```shell
-    kubectl -n istio-system port-forward \
-      $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') \
-      9090:9090 &
+    kubectl patch svc prometheus --type='json' -p '[{"op":"replace","path":"/spec/type","value":"NodePort"}]' -n istio-system
     ```
-2. Browse to http://localhost:9090/graph, and in the “Expression” input box, enter: `istio_request_byte_count`. Click Execute.
-
-#### Service Graph
-
-1. Establish port forwarding from local port 8088 to the Service Graph instance:
+2. Find the port to access the service
 
     ```shell
-    kubectl -n istio-system port-forward \
-      $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') \
-      8088:8088 &
+    $ kubectl get svc tracing -n istio-system
+    NAME      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+    prometheus   NodePort   172.21.36.204   <none>        80:32075/TCP   1d
     ```
+    
+    In this example, the port is 32075.
+    
+3. Find the host to access the service
 
-2. Browse to http://localhost:8088/dotviz
+    ```shell
+    $ ibmcloud cs workers user28-cluster
+    OK
+    ID                                                 Public IP       Private IP    Machine Type         State    Status   Zone    Version   
+    kube-wdc07-cr1b3398b985d84e9b8e9544a91d61428a-w1   169.61.73.131   10.191.9.76   b2c.4x16.encrypted   normal   Ready    wdc07   1.11.8_1547   
+    kube-wdc07-cr1b3398b985d84e9b8e9544a91d61428a-w2   169.61.73.142   10.191.9.71   b2c.4x16.encrypted   normal   Ready    wdc07   1.11.8_1547
+    ```
+    
+    Combine one of the public IPs and the port together to access the service. For example: `169.61.73.131:32075`
+    
+4. In the “Expression” input box, enter: `istio_request_byte_count`. Click Execute.
+
+#### Kiali
+
+Kiali is an open-source project that installs on top of Istio to visualize your service mesh. It provides deeper insight into how your microservices interact with one another, and provides features such as circuit breakers and request rates for your services.
+
+1. Patch the existing tracing service to change it from a `ClusterIP` to a `NodePort` type.
+
+    ```shell
+    kubectl patch svc kiali --type='json' -p '[{"op":"replace","path":"/spec/type","value":"NodePort"}]' -n istio-system
+    ```
+2. Find the port to access the service
+
+    ```shell
+    $ kubectl get svc tracing -n istio-system
+    NAME      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+    kiali   NodePort   172.21.36.204   <none>        80:32075/TCP   1d
+    ```
+    
+    In this example, the port is 32075.
+    
+3. Find the host to access the service
+
+    ```shell
+    $ ibmcloud cs workers user28-cluster
+    OK
+    ID                                                 Public IP       Private IP    Machine Type         State    Status   Zone    Version   
+    kube-wdc07-cr1b3398b985d84e9b8e9544a91d61428a-w1   169.61.73.131   10.191.9.76   b2c.4x16.encrypted   normal   Ready    wdc07   1.11.8_1547   
+    kube-wdc07-cr1b3398b985d84e9b8e9544a91d61428a-w2   169.61.73.142   10.191.9.71   b2c.4x16.encrypted   normal   Ready    wdc07   1.11.8_1547
+    ```
+    
+    Combine one of the public IPs and the port together to access the service. For example: `169.61.73.131:32075`
+    
+
+4. Click on the web preview icon and select port 8084 to access the Kiali dashboard. Login with the following username/password: admin/admin.
+
+5. Click the "Graph" tab on the left side to see the a visual service graph of the various services in your Istio mesh. You may need to select a namespace in the dropdown.
+
+6. You can see request rates as well by clicking the "Edge Labels" tab and choosing "Traffic rate per second".
+
+Kiali has a number of views to help you visualize your services. Click through the various tabs to explore the service graph, and the various views for workloads, applications and services.
 
 ## Understand what happened
 
