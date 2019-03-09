@@ -113,7 +113,7 @@ You can read more about how [Istio mixer enables telemetry reporting](https://is
 2. Find the port to access the service
 
     ```shell
-    $ kubectl get svc tracing -n istio-system
+    $ kubectl get svc grafana -n istio-system
     NAME      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
     grafana   NodePort   172.21.36.204   <none>        80:32075/TCP   1d
     ```
@@ -144,7 +144,7 @@ You can read more about how [Istio mixer enables telemetry reporting](https://is
 2. Find the port to access the service
 
     ```shell
-    $ kubectl get svc tracing -n istio-system
+    $ kubectl get svc prometheus -n istio-system
     NAME      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
     prometheus   NodePort   172.21.36.204   <none>        80:32075/TCP   1d
     ```
@@ -177,7 +177,7 @@ Kiali is an open-source project that installs on top of Istio to visualize your 
 2. Find the port to access the service
 
     ```shell
-    $ kubectl get svc tracing -n istio-system
+    $ kubectl get svc kiali -n istio-system
     NAME      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
     kiali   NodePort   172.21.36.204   <none>        80:32075/TCP   1d
     ```
