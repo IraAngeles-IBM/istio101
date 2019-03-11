@@ -116,43 +116,6 @@ These commands will inject the Istio Envoy sidecar into the guestbook pods, as w
 
     Note that each guestbook pod has 2 containers in it. One is the guestbook container, and the other is the Envoy proxy sidecar.
 
-### Use Watson Tone Analyzer
-Watson Tone Analyzer detects the tone from the words that users enter into the Guestbook app. The tone is converted to the corresponding emoticons.
-
-1. Create Watson Tone Analyzer in your account.
-
-    ```shell
-    ibmcloud resource service-instance-create my-tone-analyzer-service tone-analyzer lite us-south
-    ```
-
-2. Create the service key for the Tone Analyzer service. This command should output the credentials you just created. You will need the value for **apikey** & **url** later.
-
-    ```shell
-    ibmcloud resource service-key-create tone-analyzer-key Manager --instance-name my-tone-analyzer-service
-    ```
-
-3. If you need to get the service-keys later, you can use the following command:
-
-    ```shell
-    ibmcloud resource service-key tone-analyzer-key
-    ```
-
-4. Open the `analyzer-deployment.yaml` and find the env section near the end of the file. Replace YOUR_API_KEY with your own API key, and replace YOUR_URL with the url value you saved before. YOUR_URL should look something like `https://gateway.watsonplatform.net/tone-analyzer/api`. Save the file.
-
-5. Deploy the analyzer pods and service, using the `analyzer-deployment.yaml` and `analyzer-service.yaml` files found in the `guestbook/v2` directory. The analyzer service talks to Watson Tone Analyzer to help analyze the tone of a message.
-
-    ```shell
-    kubectl apply -f <(istioctl kube-inject -f analyzer-deployment.yaml)
-    kubectl apply -f analyzer-service.yaml
-    ```
-    
-6. The analyzer service will use IBM Cloud Identity and Access management (IAM) tokens to make authenticated requests to the Tone Analyzer service. IAM authentication uses access tokens for authentication, which are acquired by sending a request to a url with an API key. As a result, we will need to set up egress rules to allow the analyzer service access to those external urls. Apply the egress rules found in the `istio101/workshop/plans` directory.
-
-    ```shell
-    cd ../../istio101/workshop/plans
-    kubectl apply -f analyzer-egress.yaml
-    ```
-
 Great! Your guestbook app is up and running. In Exercise 4, you'll be able to see the app in action by directly accessing the service endpoint. You'll also be able to view Telemetry data for the app.
 
 #### [Continue to Exercise 4 - Telemetry](../exercise-4/README.md)
