@@ -1,13 +1,39 @@
-# Istio 101
+# Beyond the Basics: Istio and IBM Cloud Kubernetes Service
+[Istio](https://www.ibm.com/cloud/info/istio) is an open platform to connect, secure, control and observe microservices, also known as a service mesh, on cloud platforms such as Kubernetes in IBM Cloud Kubernetes Service and VMs. With Istio, You can manage network traffic, load balance across microservices, enforce access policies, verify service identity, secure service communication and observe what exactly is going on with your services.
 
-This is the repository for the [Istio][istio] 101 workshop from IBM.
+In this course, you can see how to install Istio alongside microservices for a simple mock app called [Guestbook](https://github.com/IBM/guestbook). When you deploy Guestbook's microservices into an IBM Cloud Kubernetes Service cluster where Istio is installed, you can choose to inject the Istio Envoy sidecar proxies in the pods of certain microservices.
 
-- [presentation](./presentation) -- the data for the teacher/leader of the workshop
-- [workshop](./workshop) -- the vanilla code for the code of the workshop
+## Objectives
+After you complete this course, you'll be able to:
+- Download and install Istio in your cluster
+- Deploy the Guestbook sample app
+- Use metrics, logging and tracing to observe services
+- Set up the Istio Ingress Gateway
+- Perform simple traffic management, such as A/B tests and canary deployments
+- Secure your service mesh
+- Enforce policies for your microservices
+
+## Setup
+
+1) If following this lab as part of an IBM instructor led workshop, please follow these instructions to setup your workshop environment: https://gist.github.com/jzaccone/0cdc321e5dc8adb0dca98ca861284c01
+
+2) Clone this repository. 
+
+```sh
+git clone https://github.com/jzaccone/istio101.git 
+```
+
+The Kubernetes cluster we have provided for the workshop has been installed with Istio in advanced.
+
+##  First install the Guestbook App to your Kubernetes Cluster
+- [Deploying Guestbook with Istio Proxy](deploy-guestbook/README.md)
 
 
-## License
+## Next, expose your app using the Istio Ingress Gateway
+- [Expose the service mesh with the Istio Ingress Gateway](create-ingress-gateway/README.md)
 
-See [LICENSE](./LICENSE) for license information.
+## Learn about the features of Istio
 
-[istio]: https://istio.io/
+- [Perform traffic management](traffic-management/README.md)
+- [Observe service telemetry: metrics and tracing](observe-telemetry/README.md)
+- [Enforce policies for microservices](enforce-policies/README.md)
