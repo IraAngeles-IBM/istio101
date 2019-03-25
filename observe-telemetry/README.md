@@ -1,4 +1,4 @@
-# Exercise 4 - Observe service telemetry: metrics and tracing
+# Observe service telemetry: metrics and tracing
 
 ### Challenges with microservices
 
@@ -220,4 +220,5 @@ In the example, when a user visits the Guestbook app, the HTTP request is sent f
 
 3. What distributed tracing system does Istio support by default?  A: 1. Zipkin 2. Kibana 3. LogStash 4. Jaeger. (1 and 4 are correct)
 
-#### [Continue to Exercise 5 - Expose the service mesh with the Istio Ingress Gateway](../exercise-5/README.md)
+#### [Continue to enforce policies for microservices](../enforce-policies/README.md)
+

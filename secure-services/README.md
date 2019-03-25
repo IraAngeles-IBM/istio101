@@ -1,4 +1,4 @@
-# Exercise 7 - Secure your services
+# Secure your services
 
 ## Mutual authentication with Transport Layer Security (mTLS)
 
@@ -163,4 +163,3 @@ If mTLS is working correctly, the Guestbook app should continue to operate as ex
 
 * [Istio Concept](https://istio.io/docs/concepts/security/mutual-tls.html)
 
-## [Continue to Exercise 8 - Policy Enforcement](../exercise-8/README.md)

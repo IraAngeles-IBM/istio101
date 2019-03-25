@@ -1,4 +1,4 @@
-# Exercise 1 - Accessing a Kubernetes cluster with IBM Cloud Kubernetes Service
+# Accessing a Kubernetes cluster with IBM Cloud Kubernetes Service
 
 You must already have a [cluster created](https://console.bluemix.net/docs/containers/container_index.html#container_index). Here are the steps to access your cluster.
 
@@ -115,4 +115,4 @@ Learn how to set the context to work with your cluster by using the `kubectl` CL
 
     This is the working directory for the workshop. You will use the example `.yaml` files that are located in the `workshop/plans` directory in the following exercises.
 
-### [Continue to Exercise 2 - Installing Istio](../exercise-2/README.md)
+### [Continue to Installing Istio](../install-istio/README.md)

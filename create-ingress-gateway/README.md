@@ -1,4 +1,4 @@
-# Exercise 5 - Expose the service mesh with the Istio Ingress Gateway
+# Expose the service mesh with the Istio Ingress Gateway
 
 The components deployed on the service mesh by default are not exposed outside the cluster. External access to individual services so far has been provided by creating an external load balancer or node port on each service.
 

@@ -1,4 +1,4 @@
-# Exercise 6 - Perform traffic management
+# Perform traffic management
 
 ## Using rules to manage traffic
 The core component used for traffic management in Istio is Pilot, which manages and configures all the Envoy proxy instances deployed in a particular Istio service mesh. It lets you specify what rules you want to use to route traffic between Envoy proxies, which run as sidecars to each service in the mesh. Each service consists of any number of instances running on pods, containers, VMs etc. Each service can have any number of versions (a.k.a. subsets). There can be distinct subsets of service instances running different variants of the app binary. These variants are not necessarily different API versions. They could be iterative changes to the same service, deployed in different environments (prod, staging, dev, etc.). Pilot translates high-level rules into low-level configurations and distributes this config to Envoy instances. Pilot uses three types of configuration resources to manage traffic within its service mesh: Virtual Services, Destination Rules, and Service Entries.
@@ -59,7 +59,7 @@ spec:
             subset: v1
 ```
 
-The `VirtualService` defines a rule that captures all HTTP traffic coming in through the Istio ingress gateway, `guestbook-gateway`, and routes 100% of the traffic to pods of the guestbook service with label "version: v1". A subset or version of a route destination is identified with a reference to a named service subset which must be declared in a corresponding `DestinationRule`. Since there are three instances matching the criteria of hostname `guestbook` and subset `version: v1`, by default Envoy will send traffic to all three instances in a round robin manner. You can view the guestbook service UI using the IP address and port obtained in [Exercise 5](../exercise-5/README.md) and enter it as a URL in Firefox or Chrome web browsers.
+The `VirtualService` defines a rule that captures all HTTP traffic coming in through the Istio ingress gateway, `guestbook-gateway`, and routes 100% of the traffic to pods of the guestbook service with label "version: v1". A subset or version of a route destination is identified with a reference to a named service subset which must be declared in a corresponding `DestinationRule`. Since there are three instances matching the criteria of hostname `guestbook` and subset `version: v1`, by default Envoy will send traffic to all three instances in a round robin manner. You can view the guestbook service UI using the IP address and port obtained in [this exercise](../create-ingress-gateway/README.md) and enter it as a URL in Firefox or Chrome web browsers.
 
 To enable the Istio service mesh for A/B testing against the new service version, modify the original `VirtualService` rule:
 
@@ -94,11 +94,6 @@ spec:
 
 In Istio `VirtualService` rules, there can be only one rule for each service and therefore when defining multiple [HTTPRoute](https://istio.io/docs/reference/config/istio.networking.v1alpha3/#HTTPRoute) blocks, the order in which they are defined in the yaml matters. Hence, the original `VirtualService` rule is modified rather than creating a new rule. With the modified rule, incoming requests originating from `Firefox` browsers will go to the newer version of guestbook. All other requests fall-through to the next block, which routes all traffic to the original version of guestbook.
 
-In exercise 3, we set up some egress rules to allow the guestbook service to call the Watson Tone Analyzer service created in [Exercise 3](../exercise-3/README.md). By default Istio blocks calls to services outside the service mesh. In order for calls to reach the Watson service, we applied the `VirtualService` and `ServiceEntry` found in `/istio101/workshop/plans/analyzer-egress.yaml`.
-
-
-The `ServiceEntry` defines addresses and ports services within the mesh are allowed to make requests to. If two browsers are available on your system, observe the modernized guestbook service in Firefox and the original guestbook service in any other browser.
-
 ### Canary deployment
 In `Canary Deployments`, newer versions of services are incrementally rolled out to users to minimize the risk and impact of any bugs introduced by the newer version. To begin incrementally routing traffic to the newer version of the guestbook service, modify the original `VirtualService` rule:
 
@@ -130,9 +125,9 @@ spec:
 
 In the modified rule, the routed traffic is split between two different subsets of the guestbook service. In this manner, traffic to the modernized version 2 of guestbook is controlled on a percentage basis to limit the impact of any unforeseen bugs. This rule can be modified over time until eventually all traffic is directed to the newer version of the service.
 
-You can see this in action by going to the ingress ip address (that you saved in exercise 5) in your browser. Ensure that you are using a hard refresh (command + Shift + R on Mac or Ctrl + F5 on windows) to remove any browser caching. You should notice that the guestbook should swap between V1 or V2 at about the weight you specified.
+You can see this in action by going to the ingress ip address (that you saved from the previous exercise where we created the Ingress Gateway) in your browser. Ensure that you are using a hard refresh (command + Shift + R on Mac or Ctrl + F5 on windows) to remove any browser caching. You should notice that the guestbook should swap between V1 or V2 at about the weight you specified.
 
-If you have a paid cluster, you can also access the guestbook app via the subdomain you saved in exercise 5.
+If you have a paid cluster, you can also access the guestbook app via the subdomain you saved in exercise: [create ingress gateway](../create-ingress-gateway/README.md).
 
 ### Implementing circuit breakers with destination rules
 Istio `DestinationRules` allow users to configure Envoy's implementation of [circuit breakers](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/circuit_breaking). Circuit breakers are critical for defining the behavior for service-to-service communication in the service mesh. In the event of a failure for a particular service, circuit breakers allow users to set global defaults for failure recovery on a per service and/or per service version basis. Users can apply a [traffic policy](https://istio.io/docs/reference/config/istio.networking.v1alpha3.html#TrafficPolicy) at the top level of the `DestinationRule` to create circuit breaker settings for an entire service, or it can be defined at the subset level to create settings for a particular version of a service.
@@ -156,4 +151,5 @@ Depending on whether a service handles [HTTP](https://istio.io/docs/reference/co
 1. Which Istio component is responsible for sending traffic management configurations to Istio sidecars?  Options: (Mixer, Citadel, Pilot, Kubernetes)  Answer: Pilot
 1. What is the name of the default proxy that runs in Istio sidecars and routes requests within the service mesh?  Options: (NGINX, Envoy, HAProxy)  Answer: Envoy
 
-#### [Continue to Exercise 7 - Security](../exercise-7/README.md)
+#### [Continue to Observe service telemetry: metrics and tracing](../observe-telemetry/README.md)
+

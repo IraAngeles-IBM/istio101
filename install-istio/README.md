@@ -1,4 +1,4 @@
-# Exercise 2 - Installing Istio on IBM Cloud Kubernetes Service
+# Installing Istio on IBM Cloud Kubernetes Service
 In this module, you download and install Istio.
 
 1.  Either download Istio directly from [https://github.com/istio/istio/releases](https://github.com/istio/istio/releases) or get the latest version by using curl:
@@ -96,4 +96,4 @@ In this module, you download and install Istio.
 
     Congratulations! You successfully installed Istio into your cluster.
 
-#### [Continue to Exercise 3 - Deploy Guestbook with Istio Proxy](../exercise-3/README.md)
+#### [Continue to Deploy Guestbook with Istio Proxy](../deploy-guestbook/README.md)
