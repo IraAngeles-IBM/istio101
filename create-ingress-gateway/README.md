@@ -6,36 +6,38 @@ An Ingress Gateway resource can be created to allow external requests through th
 
 ### Expose the Guestbook app with Ingress Gateway
 
+a. Configure the guestbook default route with the Istio Ingress Gateway. The `guestbook-gateway.yaml` file is in this repository (istio101) in the `plans` directory. If you are in the directory from following the instructions in the previous lab, run:
 
-    a. Configure the guestbook default route with the Istio Ingress Gateway. The `guestbook-gateway.yaml` file is in this repository (istio101) in the `plans` directory. If you are in the directory from following the instructions in the previous lab, run:
+```
+cd ../../plans
+```
 
-    ```shell
-    cd ../../plans
-    ```
+Then create the ingress resource:
 
-    Then create the ingress resource:
-    ```shell
-    kubectl create -f guestbook-gateway.yaml
-    ```
+```shell
+kubectl create -f guestbook-gateway.yaml
+```
 
-    b. Get the **EXTERNAL-IP** of the Istio Ingress Gateway.
+b. Get the **EXTERNAL-IP** of the Istio Ingress Gateway.
 
-    ```shell
-    kubectl get service istio-ingressgateway -n istio-system
-    ```
-    Output:
-    ```shell
-    NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                                       AGE
-    istio-ingressgateway   LoadBalancer   172.21.254.53    169.6.1.1       80:31380/TCP,443:31390/TCP,31400:31400/TCP    1m
-    2d
-    ```
+```shell
+kubectl get service istio-ingressgateway -n istio-system
+```
+Output:
 
-    c. Make note of the external IP address that you retrieved in the previous step, as it will be used to access the Guestbook app in later parts of the course. You can create an environment variable called $INGRESS_IP with your IP address.
+```shell
+NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                                       AGE
+istio-ingressgateway   LoadBalancer   172.21.254.53    169.6.1.1       80:31380/TCP,443:31390/TCP,31400:31400/TCP    1m
+2d
+```
 
-    Example:
-    ```
-    export INGRESS_IP=169.6.1.1
-    ```
+c. Make note of the external IP address that you retrieved in the previous step, as it will be used to access the Guestbook app in later parts of the course. You can create an environment variable called $INGRESS_IP with your IP address.
+
+Example:
+
+```
+export INGRESS_IP=169.6.1.1
+```
 
 Congratulations! You extended the base Ingress features by providing a DNS entry to the Istio service.
 
