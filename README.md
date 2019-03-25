@@ -15,7 +15,7 @@ After you complete this course, you'll be able to:
 
 1) The instructions for this workshop assume you have a paid cluster from the IBM Kubernetes Service. If following this lab as part of an IBM instructor led workshop, a paid cluster will be provided to you. Please follow these instructions to setup your workshop environment: https://gist.github.com/jzaccone/0cdc321e5dc8adb0dca98ca861284c01
 
-2) Clone this repository. `cd` into the directory
+2) Clone this repository. `cd` into the directory.
 
 ```sh
 git clone https://github.com/IBMAppModernization/istio101.git

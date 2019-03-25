@@ -28,7 +28,7 @@ You can read more about how [Istio mixer enables telemetry reporting](https://is
 
 3. Obtain the guestbook endpoint to access the guestbook.
 
-    a. For a paid cluster, you can access the guestbook via the external IP for your service as guestbook is deployed as a load balancer service. Get the EXTERNAL-IP of the guestbook service via output below:
+    a. You can access the guestbook via the external IP for your service as guestbook is deployed as a load balancer service. Get the EXTERNAL-IP of the guestbook service via output below:
 
     ```shell
     kubectl get service guestbook -n default
