@@ -13,17 +13,17 @@ After you complete this course, you'll be able to:
 
 ## Setup
 
-1) If following this lab as part of an IBM instructor led workshop, please follow these instructions to setup your workshop environment: https://gist.github.com/jzaccone/0cdc321e5dc8adb0dca98ca861284c01
+1) The instructions for this workshop assume you have a paid cluster from the IBM Kubernetes Service. If following this lab as part of an IBM instructor led workshop, a paid cluster will be provided to you. Please follow these instructions to setup your workshop environment: https://gist.github.com/jzaccone/0cdc321e5dc8adb0dca98ca861284c01
 
 2) Clone this repository. 
 
 ```sh
-git clone https://github.com/jzaccone/istio101.git 
+git clone https://github.com/IBMAppModernization/istio101.git
 ```
 
 The Kubernetes cluster we have provided for the workshop has been installed with Istio in advanced.
 
-##  First install the Guestbook App to your Kubernetes Cluster
+##  First, install the Guestbook App to your Kubernetes Cluster
 - [Deploying Guestbook with Istio Proxy](deploy-guestbook/README.md)
 
 

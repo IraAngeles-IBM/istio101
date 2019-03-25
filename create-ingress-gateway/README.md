@@ -33,43 +33,6 @@ An Ingress Gateway resource can be created to allow external requests through th
     export INGRESS_IP=169.6.1.1
     ```
 
-2. If you have a lite cluster:
-
-    a. Configure the guestbook default route with the Istio Ingress Gateway.
-
-    ```shell
-    kubectl create -f guestbook-gateway.yaml
-    ```
-
-    b. Now check the node port of the ingress.
-
-    ```shell
-    kubectl get svc istio-ingressgateway -n istio-system
-    ```
-    Output:
-    ```shell
-    NAME            TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)                      AGE
-    istio-ingress   LoadBalancer                    *              80:31702/TCP,443:32290/TCP   10d
-    ```
-    Get the Public IP of your cluster.
-    ```shell
-    ibmcloud cs workers <cluster_name>
-    ```
-    Output:
-    ```shell
-    ID             Public IP      Private IP      Machine Type        State    Status   Zone    Version
-    kube-xxx       169.60.87.20   10.188.80.69    u2c.2x4.encrypted   normal   Ready    wdc06   1.9.7_1510*
-    ```
-
-    The node port in above sample output is `169.60.87.20:31702`.
-
-    c. Make note of the IP and node port that you retrieved in the previous step as it will be used to access the Guestbook app in later parts of the course. You can create an environment variable called $INGRESS_IP with your IP address.
-
-    Example:
-    ```
-    export INGRESS_IP=169.60.87.20:31702
-    ```
-
 Congratulations! You extended the base Ingress features by providing a DNS entry to the Istio service.
 
 ## References:

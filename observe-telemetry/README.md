@@ -36,31 +36,6 @@ You can read more about how [Istio mixer enables telemetry reporting](https://is
 
     Go to this external ip address in the browser to try out your guestbook.
 
-    b. For a lite cluster, first, get the worker's public IP:
-
-    ```shell
-    ibmcloud cs workers <cluster_name>
-    ```
-    Output:
-    ```shell
-    ID             Public IP      Private IP      Machine Type        State    Status   Zone    Version
-    kube-xxx       169.60.87.20   10.188.80.69    u2c.2x4.encrypted   normal   Ready    wdc06   1.9.7_1510*
-    ```
-
-    Second, get the node port:
-
-    ```shell
-    kubectl get svc guestbook -n default
-    ```
-    Output:
-    ```shell
-    NAME        TYPE           CLUSTER-IP     EXTERNAL-IP    PORT(S)        AGE
-    guestbook   LoadBalancer   172.21.134.6   pending        80:31702/TCP   4d
-    ```
-
-    The node port in above sample output is `169.60.87.20:31702`
-
-    Go to this address in the browser to try out your guestbook.
 
 4. Generate a small load to the app.
 

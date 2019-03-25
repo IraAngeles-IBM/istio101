@@ -96,8 +96,6 @@ These commands will inject the Istio Envoy sidecar into the guestbook pods, as w
     guestbook      LoadBalancer   172.21.36.181   169.61.37.140   80:32149/TCP   5d
     ```
 
-    **Note: For Lite clusters, the external ip will not be available. That is expected.**
-
 4. Verify that the pods are up and running.
 
     ```shell
