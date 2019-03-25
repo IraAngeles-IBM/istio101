@@ -110,9 +110,9 @@ Learn how to set the context to work with your cluster by using the `kubectl` CL
     ```shell
     git clone https://github.com/IBM/istio101
 
-    cd istio101/workshop
+    cd istio101
     ```
 
-    This is the working directory for the workshop. You will use the example `.yaml` files that are located in the `workshop/plans` directory in the following exercises.
+    You will use the example `.yaml` files that are located in the `plans` directory in the following exercises.
 
 ### [Continue to Installing Istio](../install-istio/README.md)

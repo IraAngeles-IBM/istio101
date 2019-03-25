@@ -3,16 +3,16 @@
 The Guestbook app is a sample app for users to leave comments. It consists of a web front end, Redis master for storage, and a replicated set of Redis slaves. We will also integrate the app with Watson Tone Analyzer that detects the sentiment in users' comments and replies with emoticons. Here are the steps to deploy the app on your Kubernetes cluster:
 
 ### Download the Guestbook app
-1. Open your preferred terminal and download the Guestbook app from GitHub into the `workshop` directory.
+1. Open your preferred terminal and download the Guestbook app from GitHub into the root directory.
 
     ```shell
-    git clone https://github.com/IBM/guestbook.git ../guestbook
+    git clone https://github.com/IBM/guestbook.git
     ```
 
 2. Navigate into the app directory.
 
     ```shell
-    cd ../guestbook/v2
+    cd guestbook/v2
     ```
 
 ### Create a Redis database
