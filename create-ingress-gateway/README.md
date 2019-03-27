@@ -9,7 +9,7 @@ An Ingress Gateway resource can be created to allow external requests through th
 a. Configure the guestbook default route with the Istio Ingress Gateway. The `guestbook-gateway.yaml` file is in this repository (istio101) in the `plans` directory. If you are in the directory from following the instructions in the previous lab, run:
 
 ```
-cd ../../plans
+cd ../../istio101/plans
 ```
 
 Then create the ingress resource:
