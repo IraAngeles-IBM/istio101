@@ -39,7 +39,7 @@ Example:
 export INGRESS_IP=169.6.1.1
 ```
 
-Congratulations! You extended the base Ingress features by providing a DNS entry to the Istio service.
+Congratulations! You exposed guestbook via the ingress resource!
 
 #### [Continue to expore the traffic management features of Istio](../traffic-management/README.md)
 
