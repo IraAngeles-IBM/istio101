@@ -23,6 +23,12 @@ git clone https://github.com/IBMAppModernization/istio101.git
 cd istio101
 ```
 
+3) If you have guestbook installed from a previous lab, you may need to uninstall it.
+```sh
+kubectl delete deploy guestbook
+kubectl delete service guestbook
+```
+
 The Kubernetes cluster we have provided for the workshop has been installed with Istio in advanced.
 
 ##  First, install the Guestbook App to your Kubernetes Cluster
