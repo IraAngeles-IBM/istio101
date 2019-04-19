@@ -39,6 +39,8 @@ Example:
 export INGRESS_IP=169.6.1.1
 ```
 
+Open up that IP in a browser, you should see your guestbook.
+
 Congratulations! You exposed guestbook via the ingress resource!
 
 #### [Continue to expore the traffic management features of Istio](../traffic-management/README.md)
