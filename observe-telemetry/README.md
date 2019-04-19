@@ -169,7 +169,7 @@ Kiali is an open-source project that installs on top of Istio to visualize your 
     kube-wdc07-cr1b3398b985d84e9b8e9544a91d61428a-w2   169.61.73.142   10.191.9.71   b2c.4x16.encrypted   normal   Ready    wdc07   1.11.8_1547
     ```
     
-    Combine one of the public IPs and the port together to access the service. For example: `169.61.73.131:32075`
+    Combine one of the public IPs and the port together and add `/kiali` to access the service. For example: `169.61.73.131:32075/kiali`
     
 
 4. Click on the web preview icon and select port 8084 to access the Kiali dashboard. Login with the following username/password: admin/admin.
