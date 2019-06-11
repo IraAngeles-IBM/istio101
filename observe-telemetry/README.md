@@ -138,9 +138,9 @@ You can read more about how [Istio mixer enables telemetry reporting](https://is
     
     Combine one of the public IPs and the port together to access the service. For example: `169.61.73.131:32075`
     
-4. In the “Expression” input box, enter: istio_request_bytes_count. Click Execute and then select Graph.
+4. In the “Expression” input box, enter: `istio_request_bytes_count`. Click Execute and then select Graph.
 
-5. Then try another more specific query: istio_requests_total{destination_service="guestbook.default.svc.cluster.local", destination_version="2.0"}
+5. Then try another more specific query: `istio_requests_total{destination_service="guestbook.default.svc.cluster.local", destination_version="2.0"}`
 
 #### Kiali
 
