@@ -11,7 +11,9 @@ An Ingress Gateway resource can be created to allow external requests through th
 1. Configure the guestbook default route with the Istio Ingress Gateway. The `guestbook-gateway.yaml` file is in this repository (istio101) in the `workshop/plans` directory.
 
 ```shell
-cd ../../plans
+cd /userdata
+git clone https://github.com/IBMAppModernization/istio101.git
+cd istio101/workshop/plans
 kubectl create -f guestbook-gateway.yaml
 ```
 
@@ -24,9 +26,8 @@ kubectl get service istio-ingressgateway -n istio-system
 Output:
 
 ```shell
-NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                                       AGE
-istio-ingressgateway   LoadBalancer   172.21.254.53    169.6.1.1       80:31380/TCP,443:31390/TCP,31400:31400/TCP    1m
-2d
+NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP      PORT                                                  AGE
+istio-ingressgateway   LoadBalancer   172.21.88.116   169.60.156.219   15020:30582/TCP,80:31685/TCP,443:30035/TCP,...        3h10m
 ```
 
 1. Make note of the external IP address that you retrieved in the previous step, as it will be used to access the Guestbook app in later parts of the course. Create an environment variable called $INGRESS_IP with your IP address.
@@ -34,7 +35,7 @@ istio-ingressgateway   LoadBalancer   172.21.254.53    169.6.1.1       80:31380/
 Example:
 
 ```shell
-export INGRESS_IP=169.6.1.1
+export INGRESS_IP=169.60.156.219
 ```
 
 ## Connect Istio Ingress Gateway to the IBM Cloud Kubernetes Service NLB Host Name
@@ -57,21 +58,15 @@ Let's leverage this feature with Istio ingress gateway:
     ibmcloud ks nlb-dnss --cluster $MYCLUSTER
     ```
 
-   If you haven't used this feature before, you will get an empty list.
-
-1. Obtain the Istio ingress gateway's external IP. Get the EXTERNAL-IP of the istio-ingressgateway service via output below:
-
-    ```shell
-    kubectl get service istio-ingressgateway -n istio-system
-    ```
+   You may see a single entry that was created initially with the cluster. You will want a new NLB host specifically for the istio ingress gateway
 
 1. Create the NLB host with the Istio ingress gateway's public IP address:
 
     ```shell
-    ibmcloud ks nlb-dns-create --cluster $MYCLUSTER --ip $INGRESS_IP
+    ibmcloud ks nlb-dns create classic --cluster $MYCLUSTER --ip $INGRESS_IP
     ```
 
-1. List the NLB host names for your cluster:
+1. Verify the NLB host names for your cluster, this should now include the newly added host:
 
     ```shell
     ibmcloud ks nlb-dnss --cluster $MYCLUSTER
@@ -80,10 +75,12 @@ Let's leverage this feature with Istio ingress gateway:
     Example output:
 
     ```shell
-   Retrieving host names, certificates, IPs, and health check monitors for network load balancer (NLB) pods in cluster <cluster_name>...
+    ibmcloud ks nlb-dnss --cluster $MYCLUSTER
     OK
-    Hostname                                                                             IP(s)               Health Monitor   SSL Cert Status   SSL Cert Secret Name
-    mycluster-85f044fc29ce613c264409c04a76c95d-0001.us-east.containers.appdomain.cloud   ["169.1.1.1"]       None             created           mycluster-85f044fc29ce613c264409c04a76c95d-0001
+    Hostname                                                                                     IP(s)            Health Monitor   SSL Cert Status   SSL Cert Secret Name                                     Secret Namespace
+
+   demo-cluster-5290c8c8e5797924dc1ad5d1b85b37c0-0000.us-south.containers.appdomain.cloud   169.60.156.218   None             created           demo-cluster-5290c8c8e5797924dc1ad5d1b85b37c0-0000   default
+   demo-cluster-5290c8c8e5797924dc1ad5d1b85b37c0-0001.us-south.containers.appdomain.cloud   169.60.156.219   None             created           demo-cluster-5290c8c8e5797924dc1ad5d1b85b37c0-0001   default
     ```
 
 1. Make note of the NLB host name (<nlb_host_name>), as it will be used to access your Guestbook app in later parts of the course. Create an environment variable for it and test using curl or visit in your browser.
@@ -91,7 +88,7 @@ Let's leverage this feature with Istio ingress gateway:
     Example:
 
     ```shell
-    export NLB_HOSTNAME=mycluster-85f044fc29ce613c264409c04a76c95d-0001.us-east.containers.appdomain.cloud
+    export NLB_HOSTNAME=demo-cluster-5290c8c8e5797924dc1ad5d1b85b37c0-0001.us-south.containers.appdomain.cloud
     ```
 
     ```shell
@@ -101,13 +98,13 @@ Let's leverage this feature with Istio ingress gateway:
 1. Enable health check of the NLB host for Istio ingress gateway:
 
     ```shell
-    ibmcloud ks nlb-dns-monitor-configure --cluster $MYCLUSTER --nlb-host $NLB_HOSTNAME --type HTTP --description "Istio ingress gateway health check" --path "/healthz/ready" --port 15020 --enable
+    ibmcloud ks nlb-dns monitor configure --cluster $MYCLUSTER --nlb-host $NLB_HOSTNAME --type HTTP --description "Istio ingress gateway health check" --path "/healthz/ready" --port 15020 --enable
     ```
 
 1. Monitor the health check of the NLB host for Istio ingress gateway:
 
     ```shell
-    ibmcloud ks nlb-dns-monitor-status --cluster $MYCLUSTER
+    ibmcloud ks nlb-dns monitor status --cluster $MYCLUSTER
     ```
 
     After waiting for a bit, you should start to see the health monitor's status changed to Enabled.
@@ -117,8 +114,9 @@ Let's leverage this feature with Istio ingress gateway:
     ```shell
     Retrieving health check monitor statuses for NLB pods...
     OK
-    Hostname                                                                             IP          Health Monitor   H.Monitor Status  
-    mycluster-85f044fc29ce613c264409c04a76c95d-0001.us-east.containers.appdomain.cloud   169.1.1.1   Enabled          Healthy
+    Hostname                                                                                     IP               Health Monitor   H.Monitor Status
+    demo-cluster-5290c8c8e5797924dc1ad5d1b85b37c0-0000.us-south.containers.appdomain.cloud   169.60.156.218   None             N/A
+    demo-cluster-5290c8c8e5797924dc1ad5d1b85b37c0-0001.us-south.containers.appdomain.cloud   169.60.156.219   Enabled          Healthy  
     ```
 
 Congratulations! You extended the base Ingress features by providing a DNS entry to the Istio service.
