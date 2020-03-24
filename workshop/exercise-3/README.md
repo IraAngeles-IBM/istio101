@@ -157,25 +157,14 @@ The Redis database is a service that you can use to persist the data of your app
 
 Watson Tone Analyzer detects the tone from the words that users enter into the Guestbook app. The tone is converted to the corresponding emoticons.
 
-1. Create Watson Tone Analyzer in your account.
+1. You can use the Tone Analyzer from the previous microservices lab. Update the `analyzer-deployment.yaml` file with credentials from the service using these commands:
 
     ```shell
-    ibmcloud resource service-instance-create my-tone-analyzer-service tone-analyzer lite us-south
+    sed -i"_x" "s#YOUR_URL#$(curl -s -L $SETUP_URL | grep TONE_ANALYZER_ENDPOINT | cut -d = -f 2)#g" analyzer-deployment.yaml && rm analyzer-deployment.yaml_x
+    sed -i"_x" "s#YOUR_API_KEY#$(curl -s -L $SETUP_URL | grep TONE_ANALYZER_APIKEY | cut -d = -f 2)#g" analyzer-deployment.yaml && rm analyzer-deployment.yaml_x
     ```
 
-1. Create the service key for the Tone Analyzer service. This command should output the credentials you just created. You will need the value for **apikey** & **url** later.
-
-    ```shell
-    ibmcloud resource service-key-create tone-analyzer-key Manager --instance-name my-tone-analyzer-service
-    ```
-
-1. If you need to get the service-keys later, you can use the following command:
-
-    ```shell
-    ibmcloud resource service-key tone-analyzer-key
-    ```
-
-1. Open the `analyzer-deployment.yaml` and find the env section near the end of the file. Replace `YOUR_API_KEY` with your own API key, and replace `YOUR_URL` with the url value you saved before. YOUR_URL should look something like `https://gateway.watsonplatform.net/tone-analyzer/api`. Save the file.
+1. Open the `analyzer-deployment.yaml` and find the env section near the end of the file. Check to see that the `YOUR_API_KEY` with and `YOUR_URL` have been set. YOUR_URL should look something like `https://gateway.watsonplatform.net/tone-analyzer/api`.
 
 1. Deploy the analyzer pods and service, using the `analyzer-deployment.yaml` and `analyzer-service.yaml` files found in the `guestbook/v2` directory. The analyzer service talks to Watson Tone Analyzer to help analyze the tone of a message.
 

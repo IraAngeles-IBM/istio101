@@ -34,20 +34,44 @@ You can read more about how [Istio mixer enables telemetry reporting](https://is
 1. Generate a small load to the app, replacing guestbook_IP with the EXTERNAL-IP.
 
     ```shell
-    for i in {1..40}; do sleep 0.2; curl -I http://<guestbook_IP>/; done
+    for i in {1..100}; do sleep 0.2; curl -I http://<guestbook_IP>/; done
     ```
 
 ## View guestbook telemetry data
 
 ### Jaeger
 
-1. Launch the Jaeger dashboard:
+1. Patch the existing tracing service to change it from a `ClusterIP` to a `NodePort` type.
 
     ```shell
-    istioctl dashboard jaeger
+    kubectl patch svc tracing --type='json' -p '[{"op":"replace","path":"/spec/type","value":"NodePort"}]' -n istio-system
     ```
 
-1. From the **Services** menu, select either the **guestbook** or **analyzer** service.
+    > Note: Normally, you would securely port-forward to Jaeger on your local machine by running `istioctl dashboard jaeger`. However in a workshop which uses a web terminal, this will not work. So that's why you expose Jaeger as a NodePort on the cluster.
+
+1. Find the port to access the service
+
+    ```shell
+    $ kubectl get svc tracing -n istio-system
+    NAME      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+    tracing   NodePort   172.21.36.204   <none>        80:32075/TCP   1d
+    ```
+
+    In this example, the port is 32075.
+
+1. Find the host to access the service
+
+    ```shell
+    $ ibmcloud cs workers <cluster_name>
+    OK
+    ID                                                 Public IP       Private IP    Machine Type         State    Status   Zone    Version
+    kube-wdc07-cr1b3398b985d84e9b8e9544a91d61428a-w1   169.61.73.131   10.191.9.76   b2c.4x16.encrypted   normal   Ready    wdc07   1.11.8_1547
+    kube-wdc07-cr1b3398b985d84e9b8e9544a91d61428a-w2   169.61.73.142   10.191.9.71   b2c.4x16.encrypted   normal   Ready    wdc07   1.11.8_1547
+    ```
+
+    Combine one of the public IPs and the port together to access the service in a new browser tab. In this example: `169.61.73.131:32075`
+
+1. From the **Services** menu, select the **guestbook** service.
 1. Scroll to the bottom and click on **Find Traces** button to see traces.
 1. Use Ctrl-C in the terminal to exit the port-foward when you are done.
 
@@ -55,11 +79,35 @@ Read more about [Jaeger](https://www.jaegertracing.io/docs/)
 
 ### Grafana
 
-1. Establish port forwarding from local port 3000 to the Grafana instance:
+1. Patch the existing grafana service to change it from a `ClusterIP` to a `NodePort` type.
 
     ```shell
-    istioctl dashboard grafana
+    kubectl patch svc grafana --type='json' -p '[{"op":"replace","path":"/spec/type","value":"NodePort"}]' -n istio-system
     ```
+
+    > Note: Normally, you would securely port-forward to Grafana on your local machine by running `istioctl dashboard grafana`.
+
+1. Find the port to access the service
+
+    ```shell
+    $ kubectl get svc grafana -n istio-system
+    NAME      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+    grafana   NodePort   172.21.36.204   <none>        3000:31040/TCP   1d
+    ```
+
+    In this example, the port is 31040.
+
+1. Find the host to access the service
+
+    ```shell
+    $ ibmcloud cs workers <cluster_name>
+    OK
+    ID                                                 Public IP       Private IP    Machine Type         State    Status   Zone    Version
+    kube-wdc07-cr1b3398b985d84e9b8e9544a91d61428a-w1   169.61.73.131   10.191.9.76   b2c.4x16.encrypted   normal   Ready    wdc07   1.11.8_1547
+    kube-wdc07-cr1b3398b985d84e9b8e9544a91d61428a-w2   169.61.73.142   10.191.9.71   b2c.4x16.encrypted   normal   Ready    wdc07   1.11.8_1547
+    ```
+
+    Combine one of the public IPs and the port together to access the service in a new browser tab. In this example: `169.61.73.131:31040`
 
 ![Grafana dashboard](../README_images/grafana.png)
 
@@ -77,11 +125,33 @@ Read more about [Grafana](http://docs.grafana.org/).
 
 ### Prometheus
 
-1. Establish port forwarding from local port 9090 to the Prometheus instance.
+1. Patch the existing prometheus service to change it from a `ClusterIP` to a `NodePort` type.
 
     ```shell
-    istioctl dashboard prometheus
+    kubectl patch svc prometheus --type='json' -p '[{"op":"replace","path":"/spec/type","value":"NodePort"}]' -n istio-system
     ```
+
+1. Find the port to access the service
+
+    ```shell
+    $ kubectl get svc prometheus -n istio-system
+    NAME      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+    grafana   NodePort   172.21.36.204   <none>        9090:31078/TCP   1d
+    ```
+
+    In this example, the port is 31040.
+
+1. Find the host to access the service
+
+    ```shell
+    $ ibmcloud cs workers <cluster_name>
+    OK
+    ID                                                 Public IP       Private IP    Machine Type         State    Status   Zone    Version
+    kube-wdc07-cr1b3398b985d84e9b8e9544a91d61428a-w1   169.61.73.131   10.191.9.76   b2c.4x16.encrypted   normal   Ready    wdc07   1.11.8_1547
+    kube-wdc07-cr1b3398b985d84e9b8e9544a91d61428a-w2   169.61.73.142   10.191.9.71   b2c.4x16.encrypted   normal   Ready    wdc07   1.11.8_1547
+    ```
+
+    Combine one of the public IPs and the port together to access the service in a new browser tab. In this example: `169.61.73.131:31078`
 
 ![Prometheus dashboard](../README_images/prometheus.jpg)
 
@@ -113,11 +183,33 @@ data:
 EOF
 ```
 
-1. Establish port forwarding from local port 20001 to the Kiali instance.
+1. Patch the existing kiali service to change it from a `ClusterIP` to a `NodePort` type.
 
     ```shell
-    istioctl dashboard kiali
+    kubectl patch svc kiali --type='json' -p '[{"op":"replace","path":"/spec/type","value":"NodePort"}]' -n istio-system
     ```
+
+1. Find the port to access the service
+
+    ```shell
+    $ kubectl get svc prometheus -n istio-system
+    NAME      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+    grafana   NodePort   172.21.36.204   <none>        20001:31120/TCP   1d
+    ```
+
+    In this example, the port is 31040.
+
+1. Find the host to access the service
+
+    ```shell
+    $ ibmcloud cs workers <cluster_name>
+    OK
+    ID                                                 Public IP       Private IP    Machine Type         State    Status   Zone    Version
+    kube-wdc07-cr1b3398b985d84e9b8e9544a91d61428a-w1   169.61.73.131   10.191.9.76   b2c.4x16.encrypted   normal   Ready    wdc07   1.11.8_1547
+    kube-wdc07-cr1b3398b985d84e9b8e9544a91d61428a-w2   169.61.73.142   10.191.9.71   b2c.4x16.encrypted   normal   Ready    wdc07   1.11.8_1547
+    ```
+
+    Combine one of the public IPs and the port together to access the service in a new browser tab. In this example: `169.61.73.131:31120`
 
 ![Kiali dashboard](../README_images/kiali.png)
 
