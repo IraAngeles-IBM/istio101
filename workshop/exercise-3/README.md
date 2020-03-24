@@ -164,7 +164,7 @@ Watson Tone Analyzer detects the tone from the words that users enter into the G
     sed -i"_x" "s#YOUR_API_KEY#$(curl -s -L $SETUPURL | grep TONE_ANALYZER_APIKEY | cut -d = -f 2)#g" analyzer-deployment.yaml && rm analyzer-deployment.yaml_x
     ```
 
-1. View (using cat or less) the `analyzer-deployment.yaml` file and find the env section near the end of the file. Check to see that the `YOUR_API_KEY` with and `YOUR_URL` have been set. YOUR_URL should look something like `https://gateway.watsonplatform.net/tone-analyzer/api`.
+1. View (using cat or less) the `analyzer-deployment.yaml` file and find the env section near the end of the file. Check to see that the `YOUR_API_KEY` with and `YOUR_URL` have been set. YOUR_URL should look something like `https://gateway-wdc.watsonplatform.net/tone-analyzer/api`.
 
 1. Deploy the analyzer pods and service, using the `analyzer-deployment.yaml` and `analyzer-service.yaml` files found in the `guestbook/v2` directory. The analyzer service talks to Watson Tone Analyzer to help analyze the tone of a message.
 
