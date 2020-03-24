@@ -92,7 +92,7 @@ Let's leverage this feature with Istio ingress gateway:
     ```
 
     ```shell
-    curl $NLB_HOSTNAME
+    curl http://$NLB_HOSTNAME
     ```
 
 1. Enable health check of the NLB host for Istio ingress gateway:
