@@ -160,8 +160,8 @@ Watson Tone Analyzer detects the tone from the words that users enter into the G
 1. You can use the Tone Analyzer from the previous microservices lab. Update the `analyzer-deployment.yaml` file with credentials from the service using these commands:
 
     ```shell
-    sed -i"_x" "s#YOUR_URL#$(curl -s -L $SETUP_URL | grep TONE_ANALYZER_ENDPOINT | cut -d = -f 2)#g" analyzer-deployment.yaml && rm analyzer-deployment.yaml_x
-    sed -i"_x" "s#YOUR_API_KEY#$(curl -s -L $SETUP_URL | grep TONE_ANALYZER_APIKEY | cut -d = -f 2)#g" analyzer-deployment.yaml && rm analyzer-deployment.yaml_x
+    sed -i"_x" "s#YOUR_URL#$(curl -s -L $SETUPURL | grep TONE_ANALYZER_ENDPOINT | cut -d = -f 2)#g" analyzer-deployment.yaml && rm analyzer-deployment.yaml_x
+    sed -i"_x" "s#YOUR_API_KEY#$(curl -s -L $SETUPURL | grep TONE_ANALYZER_APIKEY | cut -d = -f 2)#g" analyzer-deployment.yaml && rm analyzer-deployment.yaml_x
     ```
 
 1. View (using cat or less) the `analyzer-deployment.yaml` file and find the env section near the end of the file. Check to see that the `YOUR_API_KEY` with and `YOUR_URL` have been set. YOUR_URL should look something like `https://gateway.watsonplatform.net/tone-analyzer/api`.
