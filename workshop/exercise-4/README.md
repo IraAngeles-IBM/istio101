@@ -34,7 +34,7 @@ You can read more about how [Istio mixer enables telemetry reporting](https://is
 1. Generate a small load to the app, replacing guestbook_IP with the EXTERNAL-IP.
 
     ```shell
-    for i in {1..100}; do sleep 0.2; curl -I http://<guestbook_IP>/; done
+    for i in {1..100}; do sleep 0.2; curl http://<guestbook_IP>/; done
     ```
 
 ## View guestbook telemetry data
@@ -62,7 +62,7 @@ You can read more about how [Istio mixer enables telemetry reporting](https://is
 1. Find the host to access the service
 
     ```shell
-    $ ibmcloud cs workers <cluster_name>
+    $ ibmcloud ks workers --cluster $MYCLUSTER
     OK
     ID                                                 Public IP       Private IP    Machine Type         State    Status   Zone    Version
     kube-wdc07-cr1b3398b985d84e9b8e9544a91d61428a-w1   169.61.73.131   10.191.9.76   b2c.4x16.encrypted   normal   Ready    wdc07   1.11.8_1547
@@ -73,7 +73,6 @@ You can read more about how [Istio mixer enables telemetry reporting](https://is
 
 1. From the **Services** menu, select the **guestbook** service.
 1. Scroll to the bottom and click on **Find Traces** button to see traces.
-1. Use Ctrl-C in the terminal to exit the port-foward when you are done.
 
 Read more about [Jaeger](https://www.jaegertracing.io/docs/)
 
@@ -100,7 +99,7 @@ Read more about [Jaeger](https://www.jaegertracing.io/docs/)
 1. Find the host to access the service
 
     ```shell
-    $ ibmcloud cs workers <cluster_name>
+    $ ibmcloud ks workers --cluster $MYCLUSTER
     OK
     ID                                                 Public IP       Private IP    Machine Type         State    Status   Zone    Version
     kube-wdc07-cr1b3398b985d84e9b8e9544a91d61428a-w1   169.61.73.131   10.191.9.76   b2c.4x16.encrypted   normal   Ready    wdc07   1.11.8_1547
@@ -117,7 +116,6 @@ Read more about [Jaeger](https://www.jaegertracing.io/docs/)
 
 1. In a different tab, visit the guestbook application and refresh the page multiple times to generate some load, or run the load script you used previously. Switch back to the Grafana tab.
 
-1. Use Ctrl-C in the terminal to exit the port-foward when you are done.
 
 This Grafana dashboard provides metrics for each workload. Explore the other dashboard provided as well.
 
@@ -136,7 +134,7 @@ Read more about [Grafana](http://docs.grafana.org/).
     ```shell
     $ kubectl get svc prometheus -n istio-system
     NAME      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
-    grafana   NodePort   172.21.36.204   <none>        9090:31078/TCP   1d
+    prometheus   NodePort   172.21.36.204   <none>        9090:31078/TCP   1d
     ```
 
     In this example, the port is 31040.
@@ -144,7 +142,7 @@ Read more about [Grafana](http://docs.grafana.org/).
 1. Find the host to access the service
 
     ```shell
-    $ ibmcloud cs workers <cluster_name>
+    $ ibmcloud ks workers --cluster $MYCLUSTER
     OK
     ID                                                 Public IP       Private IP    Machine Type         State    Status   Zone    Version
     kube-wdc07-cr1b3398b985d84e9b8e9544a91d61428a-w1   169.61.73.131   10.191.9.76   b2c.4x16.encrypted   normal   Ready    wdc07   1.11.8_1547
@@ -158,8 +156,6 @@ Read more about [Grafana](http://docs.grafana.org/).
 1. In the “Expression” input box, enter: `istio_request_bytes_count`. Click Execute and then select Graph.
 
 1. Then try another query: `istio_requests_total{destination_service="guestbook.default.svc.cluster.local", destination_version="2.0"}`
-
-1. Use Ctrl-C in the terminal to exit the port-foward when you are done.
 
 ### Kiali
 
@@ -192,9 +188,9 @@ EOF
 1. Find the port to access the service
 
     ```shell
-    $ kubectl get svc prometheus -n istio-system
+    $ kubectl get svc kiali -n istio-system
     NAME      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
-    grafana   NodePort   172.21.36.204   <none>        20001:31120/TCP   1d
+    kiali   NodePort   172.21.36.204   <none>        20001:31120/TCP   1d
     ```
 
     In this example, the port is 31040.
@@ -202,7 +198,7 @@ EOF
 1. Find the host to access the service
 
     ```shell
-    $ ibmcloud cs workers <cluster_name>
+    $ ibmcloud ks workers --cluster $MYCLUSTER
     OK
     ID                                                 Public IP       Private IP    Machine Type         State    Status   Zone    Version
     kube-wdc07-cr1b3398b985d84e9b8e9544a91d61428a-w1   169.61.73.131   10.191.9.76   b2c.4x16.encrypted   normal   Ready    wdc07   1.11.8_1547
