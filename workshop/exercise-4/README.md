@@ -116,7 +116,6 @@ Read more about [Jaeger](https://www.jaegertracing.io/docs/)
 
 1. In a different tab, visit the guestbook application and refresh the page multiple times to generate some load, or run the load script you used previously. Switch back to the Grafana tab.
 
-
 This Grafana dashboard provides metrics for each workload. Explore the other dashboard provided as well.
 
 Read more about [Grafana](http://docs.grafana.org/).
@@ -137,7 +136,7 @@ Read more about [Grafana](http://docs.grafana.org/).
     prometheus   NodePort   172.21.36.204   <none>        9090:31078/TCP   1d
     ```
 
-    In this example, the port is 31040.
+    In this example, the port is 31078.
 
 1. Find the host to access the service
 
@@ -193,7 +192,7 @@ EOF
     kiali   NodePort   172.21.36.204   <none>        20001:31120/TCP   1d
     ```
 
-    In this example, the port is 31040.
+    In this example, the port is 31120.
 
 1. Find the host to access the service
 
